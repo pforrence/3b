@@ -89,6 +89,7 @@ class_declaration_list ::= class_declaration:cd class_declaration_list:cdl
 |
 {: RESULT = new ClassDeclList();:}
 ;
+
 class_declaration ::= class_declaration_simple:cds
 {:RESULT = cds; :}
 | class_declaration_extends:cde
@@ -140,8 +141,11 @@ method_declaration_list ::= method_declaration:md method_declaration_list:mdl
 ;
 
 method_declaration ::= PUBLIC var_type:vt identifier:imm LPAREN RPAREN LBRACE var_declaration_list:vdl statement_list:stl RETURN expression:e SEMICOLON RBRACE
-{: RESULT = new MethodDecl(vt, imm, null, vdl, stl, e);:}
-|PUBLIC var_type:vt identifier:imm LPAREN parameter_list:pl RPAREN LBRACE var_declaration_list:vdl statement_list:stl RETURN expression:e SEMICOLON RBRACE
+{: 
+  FormalList pl = new FormalList();
+  RESULT = new MethodDecl(vt, imm, pl, vdl, stl, e);
+  :}
+|                      PUBLIC var_type:vt identifier:imm LPAREN parameter_list:pl RPAREN LBRACE var_declaration_list:vdl statement_list:stl RETURN expression:e SEMICOLON RBRACE
 {: RESULT = new MethodDecl(vt, imm, pl, vdl, stl, e);:}
 ;
 
@@ -232,12 +236,12 @@ expression ::= expression:e AND expression:e1
 |expression:e DOT identifier:imm LPAREN expression:e1 expression_list:el RPAREN
 {:
     ExpList el2 = new ExpList();
-    el.addElement(e);
+    el.addElement(e1);
     for (int i = 0; i < el.size(); i++)
     {
-
+      el2.addElement(el.elementAt(i));
     }
-    RESULT = new Call(e, imm, el);
+    RESULT = new Call(e, imm, el2);
 :}
 | INT:imm
 {:RESULT = new IntegerLiteral(imm);:}
@@ -249,7 +253,7 @@ expression ::= expression:e AND expression:e1
 {:RESULT  = new IdentifierExp(imm.toString());:}
 | THIS
 {:RESULT = new This();:}
-| NEW INT LBRACKET expression:e RBRACKET
+| NEW INT_TYPE LBRACKET expression:e RBRACKET
 {:RESULT = new NewArray(e);:}
 | NEW identifier:imm LPAREN RPAREN
 {:RESULT = new NewObject(imm);:}
