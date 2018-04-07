@@ -94,9 +94,9 @@ class BS{
     // This method compares two integers and
     // returns true if they are equal and false
     // otherwise
-    public boolean Compare(int num1 , int num2){
+    public boolean Compare(int num1 , int num2, ){
 	boolean retval ;
-	int aux02 ;
+	int aux02 sdf;
 
 	retval = false ;
 	aux02 = num2 + 1 ;

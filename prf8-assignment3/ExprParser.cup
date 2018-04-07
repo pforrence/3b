@@ -117,6 +117,7 @@ var_declaration_list ::= var_declaration_list:vdl var_declaration:vd
 
 var_declaration ::= var_type:vt identifier:imm SEMICOLON 
 {:RESULT = new VarDecl(vt, imm);:}
+// | error SEMICOLON
 ;
 
 var_type ::= BOOLEAN_TYPE 
@@ -146,6 +147,8 @@ method_declaration ::= PUBLIC var_type:vt identifier:imm LPAREN RPAREN LBRACE va
   :}
 |                      PUBLIC var_type:vt identifier:imm LPAREN parameter_list:pl RPAREN LBRACE var_declaration_list:vdl statement_list:stl RETURN expression:e SEMICOLON RBRACE
 {: RESULT = new MethodDecl(vt, imm, pl, vdl, stl, e);:}
+|error RBRACE
+|error RPAREN LBRACE var_declaration_list:vdl statement_list:stl RETURN expression:e SEMICOLON RBRACE
 ;
 
 
@@ -195,7 +198,7 @@ statement ::= LBRACE statement_list:stl RBRACE
 {: RESULT  = new Assign(imm, e); :}
 | identifier:imm LBRACKET expression:e RBRACKET EQ expression:e2 SEMICOLON
 {: RESULT  = new ArrayAssign(imm, e, e2); :}
-// | error SEMICOLON
+| error SEMICOLON
 ;
 
 expression_list ::= COMMA expression_list:el expression:e 
@@ -256,6 +259,7 @@ expression ::= expression:e AND expression:e1
 {: RESULT = new Not(e);:}
 | LPAREN expression:e RPAREN
 {: RESULT = e; :}
+|error RPAREN
 ;
 
 identifier ::= ID:imm
