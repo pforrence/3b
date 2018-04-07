@@ -259,7 +259,7 @@ expression ::= expression:e AND expression:e1
 {: RESULT = new Not(e);:}
 | LPAREN expression:e RPAREN
 {: RESULT = e; :}
-|error RPAREN
+|LPAREN error RPAREN
 ;
 
 identifier ::= ID:imm
