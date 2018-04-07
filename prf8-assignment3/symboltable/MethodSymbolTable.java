@@ -65,14 +65,4 @@ public class MethodSymbolTable extends BlockSymbolTable implements Scope
             return args.get(name);
     }
     
-    public void assignRegisters(RegisterAllocator allocator)
-    {
-        List<String> keys = Helper.keysToSortedList(vars.keySet());
-        
-        for(int i = 0; i < keys.size(); i++)
-        {
-            Variable v = vars.get(keys.get(i));
-            v.setRegister(allocator.allocateReg());
-        }
-    }
 }
