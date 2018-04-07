@@ -1,6 +1,5 @@
 package symboltable;
 
-import helper.*;
 import java.util.Hashtable;
 import java.util.Set;
 import java.util.List;

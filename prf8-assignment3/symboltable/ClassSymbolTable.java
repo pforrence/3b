@@ -3,7 +3,6 @@ package symboltable;
 import java.util.List;
 import java.util.Hashtable;
 import java.util.Set;
-import helper.*;
 
 public class ClassSymbolTable extends BlockSymbolTable implements Scope
 {
