@@ -23,12 +23,12 @@ parser code {:
       System.err.println("Error at line " + currentToken.left + ", column " + cur_token.right);
     }
 
-    public int getLine(Symbol currentToken) {
-        return currentToken.left;
+    public int getLine() {
+        return currentSymbol.left;
     }
 
-    public int getColumn(Symbol currentToken) {
-        return currentToken.right;
+    public int getColumn() {
+        return currentSymbol.right;
     }
 
 :}; 

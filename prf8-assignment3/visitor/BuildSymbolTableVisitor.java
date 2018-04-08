@@ -4,6 +4,7 @@ import syntaxtree.*;
 import symboltable.*;
 import java.util.HashSet;
 import java.lang.Object;
+import java_cup.runtime.Symbol;
 
 public class BuildSymbolTableVisitor implements Visitor
 {
@@ -11,6 +12,7 @@ public class BuildSymbolTableVisitor implements Visitor
     private Scope currentScope;
     private int blockNumber;
     public boolean errorDetected;
+    //public java_cup.runtime.Symbol currentSymbol;
     
     public BuildSymbolTableVisitor()
     {
