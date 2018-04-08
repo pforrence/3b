@@ -1,7 +1,7 @@
 package visitor;
 public class ReturnQuad extends Quadruple
 {
-	public ReturnQuad(String op, String arg1, String arg2, String r)
+	public ReturnQuad(Object op, Object arg1, Object arg2, Object r)
 	{
 		operator = op;
 		argument1 = arg1;

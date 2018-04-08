@@ -1,10 +1,10 @@
 package visitor;
 
 public abstract class Quadruple {
-    String operator;
-    String argument1;
-    String argument2;
-    String result;
+    Object operator;
+    Object argument1;
+    Object argument2;
+    Object result;
 
     public abstract String toString();
 }

@@ -4,11 +4,16 @@ import syntaxtree.*;
 import java.util.ArrayList;
 
 public class IRVisitor implements Visitor {
-  
+  public int tempcounter = 0;
+  public int whilecounter = 0;
+  public int ifcounter = 0;
   public ArrayList<Quadruple> IR = new ArrayList<Quadruple>();
 
   public void reset() {
       IR = new ArrayList<Quadruple>();
+      whilecounter = 0;
+      ifcounter = 0;
+
   }
 
   public int genIR() {
@@ -56,7 +61,7 @@ public class IRVisitor implements Visitor {
     System.out.print("class ");
     n.i1.accept(this); //classname
     System.out.println(" {");
-    IR.add(new MethodQuad("main"));
+    IR.add(new LabelQuad((Object)"main"));
     System.out.print("  public static void main (String [] ");
     //System.out.print("param ");
     n.i2.accept(this); //argument list name (String [] il2)
@@ -130,7 +135,7 @@ public class IRVisitor implements Visitor {
   // StatementList sl;
   // Exp e;
   public void visit(MethodDecl n) {
-    IR.add(new MethodQuad(n.i.toString()));
+    IR.add(new LabelQuad(n.i.toString()));
     System.out.print("  public ");
     n.t.accept(this);
     System.out.print(" ");
@@ -196,23 +201,44 @@ public class IRVisitor implements Visitor {
   // Exp e;
   // Statement s1,s2;
   public void visit(If n) {
+    int local = ifcounter++;
+    String if_label = "ifbreak" + local;
+    String else_label = "else" + local;
+
     System.out.print("if (");
     n.e.accept(this);
+    IR.add(new CondJumpQuad(n.e.getVar(), else_label));
+
     System.out.println(") ");
     System.out.print("    ");
     n.s1.accept(this);
+    IR.add(new UCondJumpQuad((Object)(if_label)));
+    IR.add(new LabelQuad((Object)(else_label)));
+
     System.out.println();
     System.out.print("    else ");
     n.s2.accept(this);
+    IR.add(new LabelQuad((Object)(if_label)));
+
   }
 
   // Exp e;
   // Statement s;
   public void visit(While n) {
+    String while_label = "while" + whilecounter++;
+    String break_while_label = "break" + while_label;
+
+
+    IR.add(new LabelQuad((Object)(while_label)));
     System.out.print("while (");
     n.e.accept(this);
+    IR.add(new CondJumpQuad(n.e.getVar(), break_while_label));
+
     System.out.print(") ");
     n.s.accept(this);
+    IR.add(new UCondJumpQuad((Object)(while_label)));
+    IR.add(new LabelQuad((Object)(break_while_label)));
+
   }
 
   // Exp e;
@@ -220,7 +246,7 @@ public class IRVisitor implements Visitor {
     System.out.print("System.out.println(");
     n.e.accept(this);
     System.out.print(");");
-    IR.add(new ParamQuad(n.e.toString()));
+    IR.add(new ParamQuad(n.e.getVar()));
     IR.add(new CallQuad("print", "1"));
   }
   
@@ -231,8 +257,7 @@ public class IRVisitor implements Visitor {
     System.out.print(" = ");
     n.e.accept(this);
     System.out.print(";");
-    //IR.add(new CopyQuad(n.i, "1"));
-
+    IR.add(new CopyQuad(n.i.toString(), n.e.getVar()));
   }
 
   // Identifier i;
@@ -253,7 +278,7 @@ public class IRVisitor implements Visitor {
     System.out.print(" && ");
     n.e2.accept(this);
     System.out.print(")");
-    //IR.add(new AssignmentQuad(n.i, "1"));
+    IR.add(new AssignmentQuad("&&", n.e1.getVar(), n.e2.getVar(), n.getVar()));
 
   }
 
@@ -264,6 +289,7 @@ public class IRVisitor implements Visitor {
     System.out.print(" < ");
     n.e2.accept(this);
     System.out.print(")");
+    IR.add(new AssignmentQuad("<", n.e1.getVar(), n.e2.getVar(), n.getVar()));
   }
 
   // Exp e1,e2;
@@ -273,6 +299,8 @@ public class IRVisitor implements Visitor {
     System.out.print(" + ");
     n.e2.accept(this);
     System.out.print(")");
+    IR.add(new AssignmentQuad("+", n.e1.getVar(), n.e2.getVar(), n.getVar()));
+
   }
 
   // Exp e1,e2;
@@ -282,6 +310,7 @@ public class IRVisitor implements Visitor {
     System.out.print(" - ");
     n.e2.accept(this);
     System.out.print(")");
+    IR.add(new AssignmentQuad("-", n.e1.getVar(), n.e2.getVar(), n.getVar()));
   }
 
   // Exp e1,e2;
@@ -291,6 +320,7 @@ public class IRVisitor implements Visitor {
     System.out.print(" * ");
     n.e2.accept(this);
     System.out.print(")");
+    IR.add(new AssignmentQuad("*", n.e1.getVar(), n.e2.getVar(), n.getVar()));
   }
 
   // Exp e1,e2;
@@ -299,11 +329,13 @@ public class IRVisitor implements Visitor {
     System.out.print("[");
     n.e2.accept(this);
     System.out.print("]");
+    //IR.add(new AssignmentQuad("<", n.e1.getVar(), n.e2.getVar(), n.getVar()));
+
   }
 
   // Exp e;
   public void visit(ArrayLength n) {
-    IR.add(new LengthQuad(n.e.toString()));
+    IR.add(new LengthQuad(n.e.getVar()));
     n.e.accept(this);
     System.out.print(".length");
   }

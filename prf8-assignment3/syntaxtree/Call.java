@@ -1,12 +1,14 @@
 package syntaxtree;
 import visitor.Visitor;
 import visitor.TypeVisitor;
+import symboltable.Variable;
 
 public class Call extends Exp {
   public Exp e;
   public Identifier i;
   public ExpList el;
-  
+  public Variable var;
+
   public Call(Exp ae, Identifier ai, ExpList ael) {
     e=ae; i=ai; el=ael;
   }
@@ -20,6 +22,7 @@ public class Call extends Exp {
   }
   public Variable getVar()
   {
-
-  }
+    if (var == null) var = new Variable("temp", "temp");
+    return var; 
+    }
 }

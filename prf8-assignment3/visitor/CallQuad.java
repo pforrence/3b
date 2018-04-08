@@ -1,7 +1,7 @@
 package visitor;
 public class CallQuad extends Quadruple
 {
-	public CallQuad(String name, String arg1)
+	public CallQuad(Object name, Object arg1)
 	{
 		operator = name;
 		argument1 = arg1;

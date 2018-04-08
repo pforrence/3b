@@ -1,10 +1,11 @@
 package syntaxtree;
 import visitor.Visitor;
 import visitor.TypeVisitor;
+import symboltable.Variable;
 
 public class IntegerLiteral extends Exp {
   public int i;
-
+  public Variable var;
   public IntegerLiteral(int ai) {
     i=ai;
   }
@@ -18,6 +19,7 @@ public class IntegerLiteral extends Exp {
   }
   public Variable getVar()
   {
-
+    if (var == null) return new Variable(Integer.toString(i), "int");
+    else return var;
   }
 }

@@ -2,7 +2,7 @@ package visitor;
 
 public class ParamQuad extends Quadruple
 {
-	public ParamQuad(String op)
+	public ParamQuad(Object op)
 	{
 		operator = "param";
 		argument1 = op;

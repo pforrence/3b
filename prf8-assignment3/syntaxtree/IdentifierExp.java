@@ -1,9 +1,12 @@
 package syntaxtree;
 import visitor.Visitor;
 import visitor.TypeVisitor;
+import symboltable.Variable;
 
 public class IdentifierExp extends Exp {
   public String s;
+  public Variable var;
+
   public IdentifierExp(String as) { 
     s=as;
   }
@@ -17,6 +20,8 @@ public class IdentifierExp extends Exp {
   }
   public Variable getVar()
   {
+    if (var == null) var = new Variable(s, "id");
+    return var;
 
   }
 }

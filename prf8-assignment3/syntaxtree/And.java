@@ -1,9 +1,11 @@
 package syntaxtree;
 import visitor.Visitor;
 import visitor.TypeVisitor;
+import symboltable.Variable;
 
 public class And extends Exp {
   public Exp e1,e2;
+  public Variable var;
 
   
   public And(Exp ae1, Exp ae2) {
@@ -19,6 +21,7 @@ public class And extends Exp {
   }
 public Variable getVar()
   {
-
+    if (var == null) var = new Variable("temp", "temp");
+    return var; 
   }
 }

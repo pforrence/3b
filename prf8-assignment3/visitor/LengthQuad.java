@@ -1,7 +1,7 @@
 package visitor;
 public class LengthQuad extends Quadruple
 {
-	public LengthQuad(String op)
+	public LengthQuad(Object op)
 	{
 		operator = "length";
 		argument1 = op;

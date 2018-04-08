@@ -1,6 +1,7 @@
 package syntaxtree;
 import visitor.Visitor;
 import visitor.TypeVisitor;
+import symboltable.Variable;
 
 public abstract class Exp {
   public abstract void accept(Visitor v);

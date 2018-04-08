@@ -1,7 +1,7 @@
 package visitor;
 public class NewArrayQuad extends Quadruple
 {
-	public NewArrayQuad(String op, String arg1, String arg2, String r)
+	public NewArrayQuad(Object op, Object arg1, Object arg2, Object r)
 	{
 		operator = op;
 		argument1 = arg1;

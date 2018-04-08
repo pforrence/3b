@@ -1,7 +1,7 @@
 package visitor;
 public class IAssignmentQuad extends Quadruple
 {
-	public IAssignmentQuad(String op, String arg1, String arg2, String r)
+	public IAssignmentQuad(Object op, Object arg1, Object arg2, Object r)
 	{
 		operator = op;
 		argument1 = arg1;

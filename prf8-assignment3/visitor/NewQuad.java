@@ -1,7 +1,7 @@
 package visitor;
 public class NewQuad extends Quadruple
 {
-	public NewQuad(String type, String id)
+	public NewQuad(Object type, Object id)
 	{
 		operator = id;
 		argument1 = type;
