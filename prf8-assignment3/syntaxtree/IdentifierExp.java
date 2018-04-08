@@ -15,5 +15,9 @@ public class IdentifierExp extends Exp {
   public Type accept(TypeVisitor v) {
     return v.visit(this);
   }
+  public Variable getVar()
+  {
+
+  }
 }
 

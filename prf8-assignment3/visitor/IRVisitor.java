@@ -303,6 +303,7 @@ public class IRVisitor implements Visitor {
 
   // Exp e;
   public void visit(ArrayLength n) {
+    IR.add(new LengthQuad(n.e.toString()));
     n.e.accept(this);
     System.out.print(".length");
   }

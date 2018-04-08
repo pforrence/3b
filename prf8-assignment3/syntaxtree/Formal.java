@@ -17,4 +17,5 @@ public class Formal {
   public Type accept(TypeVisitor v) {
     return v.visit(this);
   }
+
 }
