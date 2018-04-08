@@ -18,9 +18,17 @@ public class Compiler {
             Reader reader = new java.io.InputStreamReader(new java.io.FileInputStream(args[0]));
             ExprParser parser = new ExprParser(new ExprLex(reader));
             parse_tree = parser.parse();
-            
+            	
+            //symboltable = new symboltablevisitor();
             Program program = ((Program) parse_tree.value);
-            program.accept(new PrettyPrintVisitor());
+            //program.accept(new IRVisitor(symboltable));
+            //program.accept(new IRVisitor());
+            Visitor IRVisit = new IRVisitor();
+            System.out.println("Three Address Code: ");
+            program.accept(IRVisit);
+            for(int i = 0; i < ((IRVisitor)IRVisit).IR.size(); i++)
+           		System.out.println(((IRVisitor)IRVisit).IR.get(i));
+			((IRVisitor)IRVisit).reset();
 
 		} catch (IOException e) {
 			System.err.println("ERROR: Unable to open file: " + args[0]);

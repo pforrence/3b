@@ -62,13 +62,13 @@ class BS{
 	    aux01 = number[medium] ;
 	    if (num < aux01) right = medium - 1 ;
 	    else left = medium + 1 ;
-	    if (this.Compare(aux01,num, )) var_cont = false ;
+	    if (this.Compare(aux01,num)) var_cont = false ;
 	    else var_cont = true ;
 	    if (right < left) var_cont = false ;
 	    else nt = 0 ;
 	}
 
-	if (this.Compare(aux01,num)) bs01 = true ;
+	if (this.Compare(aux01, num)) bs01 = true ;
 	else bs01 = false ;
 	return bs01 ;
     }
@@ -94,9 +94,9 @@ class BS{
     // This method compares two integers and
     // returns true if they are equal and false
     // otherwise
-    public boolean Compare(int num1 , int num2, ){
-	boolean retval ;
-	int aux02 sdf;
+    public boolean Compare(int num1 , int num2){
+	boolean retval;
+	int aux02 ;
 
 	retval = false ;
 	aux02 = num2 + 1 ;
@@ -128,7 +128,7 @@ class BS{
 	int aux01 ;
 
 	size = sz ;
-	number = new int[sz] ;
+	number = new int[sz];
 	
 	j = 1 ;
 	k = size + 1 ;
