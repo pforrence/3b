@@ -226,6 +226,8 @@ public class IRVisitor implements Visitor {
     System.out.print(" = ");
     n.e.accept(this);
     System.out.print(";");
+    IR.add(new AssignmentQuad(n.i, "1"));
+
   }
 
   // Identifier i;

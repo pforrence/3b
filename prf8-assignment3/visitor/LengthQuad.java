@@ -1,7 +1,7 @@
 package visitor;
-public class AssignmentQuad extends Quadruple
+public class LengthQuad extends Quadruple
 {
-	public AssignmentQuad(String op, String arg1, String arg2, String r)
+	public LengthQuad(String op, String arg1, String arg2, String r)
 	{
 		operator = op;
 		argument1 = arg1;
