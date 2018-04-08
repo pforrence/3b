@@ -22,6 +22,15 @@ parser code {:
     public void syntax_error(Symbol currentToken) {
       System.err.println("Error at line " + currentToken.left + ", column " + cur_token.right);
     }
+
+    public int getLine() {
+        return currentSymbol.left;
+    }
+
+    public int getColumn() {
+        return currentSymbol.right;
+    }
+
 :}; 
 
 /* Terminals (tokens returned by lexer). */
