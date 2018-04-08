@@ -52,25 +52,28 @@ public class IRVisitor implements Visitor {
   // Identifier i1,i2;
   // Statement s;
   public void visit(MainClass n) {
+    //IR.add(new MainQuad(n.i1.toString()));
     System.out.print("class ");
     n.i1.accept(this); //classname
     System.out.println(" {");
+    IR.add(new MethodQuad("main"));
     System.out.print("  public static void main (String [] ");
     //System.out.print("param ");
     n.i2.accept(this); //argument list name (String [] il2)
+
     System.out.println(") {");
     System.out.print("    ");
     n.s.accept(this); //statment list.
     System.out.println("  }");
     System.out.println("}");
-    IR.add(new MainQuad(n.i1.toString()));
-  
+    //IR.add(new MainQuad(n.i1.toString()));
   }
 
   // Identifier i;
   // VarDeclList vl;
   // MethodDeclList ml;
   public void visit(ClassDeclSimple n) {
+    //IR.add(new MainQuad(n.i1.toString()));
     System.out.print("class ");
     n.i.accept(this);
     System.out.println(" { ");
@@ -113,6 +116,7 @@ public class IRVisitor implements Visitor {
   // Type t;
   // Identifier i;
   public void visit(VarDecl n) {
+    IR.add(new NewQuad(n.t.toString(), n.i.toString()));
     n.t.accept(this);
     System.out.print(" ");
     n.i.accept(this);
@@ -126,6 +130,7 @@ public class IRVisitor implements Visitor {
   // StatementList sl;
   // Exp e;
   public void visit(MethodDecl n) {
+    IR.add(new MethodQuad(n.i.toString()));
     System.out.print("  public ");
     n.t.accept(this);
     System.out.print(" ");
@@ -215,8 +220,8 @@ public class IRVisitor implements Visitor {
     System.out.print("System.out.println(");
     n.e.accept(this);
     System.out.print(");");
-    IR.add(new CallQuad("print", "1"));
     IR.add(new ParamQuad(n.e.toString()));
+    IR.add(new CallQuad("print", "1"));
   }
   
   // Identifier i;
@@ -226,7 +231,7 @@ public class IRVisitor implements Visitor {
     System.out.print(" = ");
     n.e.accept(this);
     System.out.print(";");
-    IR.add(new AssignmentQuad(n.i, "1"));
+    //IR.add(new CopyQuad(n.i, "1"));
 
   }
 
@@ -248,6 +253,8 @@ public class IRVisitor implements Visitor {
     System.out.print(" && ");
     n.e2.accept(this);
     System.out.print(")");
+    //IR.add(new AssignmentQuad(n.i, "1"));
+
   }
 
   // Exp e1,e2;

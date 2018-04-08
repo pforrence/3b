@@ -1,7 +1,7 @@
 package visitor;
-public class MainQuad extends Quadruple
+public class MethodQuad extends Quadruple
 {
-	public MainQuad(String name)
+	public MethodQuad(String name)
 	{
 		operator = name;
 	}
