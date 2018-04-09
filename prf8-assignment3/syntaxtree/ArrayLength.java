@@ -20,8 +20,8 @@ public class ArrayLength extends Exp {
   }
   public Variable getVar()
   {
-    if (var == null) var = new Variable("temp", "temp");
-    return var;  
+    TempCounter temp = new TempCounter();
+    if (var == null) var = new Variable("temp" + temp.getCount(), "temp");    return var;  
   }
 
 }

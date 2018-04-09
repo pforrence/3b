@@ -37,7 +37,7 @@ public class Compiler {
                     System.err.println("Oh no... the symbol table is null!");
                     return;
                 }
-                
+                //symbolTable.print(0);
                 //Visit the tree starting at the root to check for undefined variables
                 UndefinedVariableVisitor undefinedVisitor = new UndefinedVariableVisitor(symbolTable);
                 undefinedVisitor.visit(program);
@@ -54,7 +54,7 @@ public class Compiler {
                 
                 //program.accept(new IRVisitor(symboltable));
                 //program.accept(new IRVisitor());
-                Visitor IRVisit = new IRVisitor();
+                Visitor IRVisit = new IRVisitor(symbolTable);
                 System.out.println("Three Address Code: ");
                 program.accept(IRVisit);
                 for(int i = 0; i < ((IRVisitor)IRVisit).IR.size(); i++)

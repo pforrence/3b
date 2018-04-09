@@ -1,6 +1,6 @@
 README.md
 
-Make and run my program
+Make and run our program
 
 1. make clean
 //before recompiling, always make clean to clear any rubbish files
@@ -13,9 +13,3 @@ Make and run my program
 
 4. java Compiler file.java
 //run a test file and see the magic happen!
-
-
-this doesn't make correctly but
-it's a good enough Compiler for Zoidberg.
-
-(\/) (°,,,°) (\/)

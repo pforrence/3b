@@ -20,6 +20,6 @@ public class IntegerLiteral extends Exp {
   public Variable getVar()
   {
     if (var == null) return new Variable(Integer.toString(i), "int");
-    else return var;
+    return var;
   }
 }
