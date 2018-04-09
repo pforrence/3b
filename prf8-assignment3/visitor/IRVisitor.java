@@ -4,46 +4,22 @@ import syntaxtree.*;
 import java.util.ArrayList;
 
 public class IRVisitor implements Visitor {
+  public SymbolTable symtable;
   public int tempcounter = 0;
   public int whilecounter = 0;
   public int ifcounter = 0;
   public ArrayList<Quadruple> IR = new ArrayList<Quadruple>();
-
+  
+  public IRVisitor(SymbolTable st)
+  {
+    symtable = st;
+  }
   public void reset() {
       IR = new ArrayList<Quadruple>();
+      tempcounter = 0;
       whilecounter = 0;
       ifcounter = 0;
-
   }
-
-  public int genIR() {
-    // Node lhs = n.children.get(0);
-    // Node rhs = n.children.get(1);
-
-    // int l = lhs.accept(this); 
-    // int r = rhs.accept(this);
-
-    // String arg1; 
-    // String arg2;
-
-    // if(lhs instanceof IntNode) {
-    //   arg1 = ""+l;
-    // }
-    // else {
-    //   arg1 = "t" + l;
-    // }
-
-    // if(rhs instanceof IntNode) {
-    //   arg2 = ""+r;
-    // }
-    // else {
-    //   arg2 = "t" + r;
-    // }
-
-    //IR.add(new Quadruple(operator, arg1, arg2, "t"));
-    return 0;
-  }
-
   // MainClass m;
   // ClassDeclList cl;
   public void visit(Program n) {
@@ -157,7 +133,10 @@ public class IRVisitor implements Visitor {
         if ( i < n.sl.size() ) { System.out.println(""); }
     }
     System.out.print("    return ");
+
     n.e.accept(this);
+    IR.add(new ReturnQuad(n.e.getVar()));
+
     System.out.println(";");
     System.out.print("  }");
   }
@@ -269,6 +248,8 @@ public class IRVisitor implements Visitor {
     System.out.print("] = ");
     n.e2.accept(this);
     System.out.print(";");
+    IR.add(new IAssignmentQuad(n.i.toString(), n.e1.getVar(), n.e2.getVar(), "1"));
+
   }
 
   // Exp e1,e2;
@@ -329,13 +310,13 @@ public class IRVisitor implements Visitor {
     System.out.print("[");
     n.e2.accept(this);
     System.out.print("]");
-    //IR.add(new AssignmentQuad("<", n.e1.getVar(), n.e2.getVar(), n.getVar()));
+    IR.add(new IAssignmentQuad(n.getVar(), n.e1.getVar(), n.e2.getVar(), "0"));
 
   }
 
   // Exp e;
   public void visit(ArrayLength n) {
-    IR.add(new LengthQuad(n.e.getVar()));
+    IR.add(new LengthQuad(n.getVar(), n.e.getVar()));
     n.e.accept(this);
     System.out.print(".length");
   }
@@ -348,11 +329,16 @@ public class IRVisitor implements Visitor {
     System.out.print(".");
     n.i.accept(this);
     System.out.print("(");
-    for ( int i = 0; i < n.el.size(); i++ ) {
+    int i;
+    for (i = 0; i < n.el.size(); i++ ) {
         n.el.elementAt(i).accept(this);
+        IR.add(new ParamQuad(n.el.elementAt(i).getVar()));
         if ( i+1 < n.el.size() ) { System.out.print(", "); }
     }
+    IR.add(new ParamQuad(n.e.getVar()));
+    i++;
     System.out.print(")");
+    IR.add(new CallQuad(n.i.toString(), Integer.toString(i)));
   }
 
   // int i;
@@ -382,6 +368,8 @@ public class IRVisitor implements Visitor {
     System.out.print("new int [");
     n.e.accept(this);
     System.out.print("]");
+    IR.add(new NewArrayQuad("int", n.getVar(), n.e.getVar()));
+
   }
 
   // Identifier i;
@@ -389,12 +377,15 @@ public class IRVisitor implements Visitor {
     System.out.print("new ");
     System.out.print(n.i.s);
     System.out.print("()");
+    IR.add(new NewObjectQuad("int", n.getVar(), n.e.getVar()));
   }
 
   // Exp e;
   public void visit(Not n) {
     System.out.print("!");
     n.e.accept(this);
+    IR.add(new UAssignmentQuad("!", n.e.getVar(), n.getVar()));
+
   }
 
   // String s;

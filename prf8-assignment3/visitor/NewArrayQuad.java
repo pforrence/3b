@@ -1,16 +1,14 @@
 package visitor;
 public class NewArrayQuad extends Quadruple
 {
-	public NewArrayQuad(Object op, Object arg1, Object arg2, Object r)
+	public NewArrayQuad(Object type, Object id, Object size)
 	{
-		operator = op;
-		argument1 = arg1;
-        argument2 = arg2;
-        result = r;
+		operator = id;
+		argument1 = type;
+		argument2 = size;
 	}
 	@Override
     public String toString() {
-        return result + " := " + argument1 + " " + operator + 
-                  " " + argument2;
+        return operator + " := new " + argument1 + ", " + argument2;
     }
 }

@@ -17,5 +17,6 @@ public class If extends Statement {
   public Type accept(TypeVisitor v) {
     return v.visit(this);
   }
+  
 }
 
